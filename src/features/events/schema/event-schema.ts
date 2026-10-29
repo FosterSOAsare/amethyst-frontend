@@ -13,7 +13,11 @@ export const eventSchema = z.object({
       price: z
         .number({ message: "Price is required" })
         .min(0, "Price cannot be negative"),
-      totalQuantity: z.number().optional().nullable(),
+      totalQuantity: z
+        .number()
+        .min(1, "Quantity must be at least 1")
+        .optional()
+        .nullable(),
     }),
   ),
 });
