@@ -5,8 +5,12 @@ export const eventSchema = z.object({
   date: z.string().min(5, "Please enter a valid date"),
   time: z.string().min(5, "Please enter a valid time"),
   location: z.string().min(3, "Location is required"),
-  leadImage: z.string().url("Please enter a valid image URL"),
+  leadImage: z.string().url("Please upload an event image"),
   desc: z.string().min(10, "Description must be at least 10 characters"),
+  detailsFile: z
+    .object({ url: z.string().url(), name: z.string() })
+    .nullable()
+    .optional(),
   tickets: z.array(
     z.object({
       type: z.string().min(1, "Ticket type is required"),

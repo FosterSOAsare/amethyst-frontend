@@ -11,6 +11,7 @@ export interface Event {
   desc: string;
   longDesc?: string;
   leadImage: string;
+  detailsFile?: { url: string; name: string } | null; // optional PDF or Word document
   eventId: string; // The human-readable string EV_XXXX
   tickets: Array<{
     _id: string; // The MongoDB ObjectId for the ticket tier

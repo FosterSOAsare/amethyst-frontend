@@ -1,6 +1,13 @@
+import { useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../../shared/ui/button";
+import { FileUploadField } from "../../shared/ui/file-upload-field";
+import {
+  DOCUMENT_RULES,
+  IMAGE_RULES,
+  fileNameFromUrl,
+} from "../../shared/utils/file-rules";
 import { Plus, Trash2, Loader2 } from "lucide-react";
 import { eventSchema, type EventFormData } from "../schema/event-schema";
 
@@ -23,6 +30,7 @@ const EventForm = ({
     handleSubmit,
     watch,
     getValues,
+    setValue,
     formState: { errors },
   } = useForm<EventFormData>({
     resolver: zodResolver(eventSchema),
@@ -32,6 +40,7 @@ const EventForm = ({
       location: "",
       desc: "",
       leadImage: "",
+      detailsFile: null,
       tickets: [],
       ...initialData,
       date: initialData?.date
@@ -44,6 +53,12 @@ const EventForm = ({
     control,
     name: "tickets",
   });
+
+  // The form stores only the image URL, so the uploaded file's name is kept here
+  // to show it. Images saved before this session show the name from their URL.
+  const [leadImageName, setLeadImageName] = useState<string | null>(null);
+  const leadImage = watch("leadImage");
+  const detailsFile = watch("detailsFile");
 
   const handleFormSubmit = (data: EventFormData) => {
     onSubmit(data);
@@ -128,21 +143,22 @@ const EventForm = ({
           )}
         </div>
 
-        <div className="space-y-2">
-          <label className="text-[10px] font-bold tracking-widest text-gray-700 uppercase">
-            Image URL
-          </label>
-          <input
-            {...register("leadImage")}
-            type="url"
-            className={`w-full border ${errors.leadImage ? "border-primary" : "border-gray-200"} p-3 text-sm focus:border-black outline-none transition-colors`}
-          />
-          {errors.leadImage && (
-            <p className="text-[10px] text-primary font-bold">
-              {errors.leadImage.message}
-            </p>
-          )}
-        </div>
+        <FileUploadField
+          label="Event Image"
+          rules={IMAGE_RULES}
+          showImagePreview
+          testId="event-image"
+          value={
+            leadImage
+              ? { url: leadImage, name: leadImageName ?? fileNameFromUrl(leadImage) }
+              : null
+          }
+          onChange={(file) => {
+            setLeadImageName(file?.name ?? null);
+            setValue("leadImage", file?.url ?? "", { shouldValidate: true });
+          }}
+          error={errors.leadImage?.message}
+        />
 
         <div className="space-y-2">
           <label className="text-[10px] font-bold tracking-widest text-gray-700 uppercase">
@@ -158,6 +174,14 @@ const EventForm = ({
             </p>
           )}
         </div>
+
+        <FileUploadField
+          label="Event Details (optional)"
+          rules={DOCUMENT_RULES}
+          testId="event-details-file"
+          value={detailsFile ?? null}
+          onChange={(file) => setValue("detailsFile", file)}
+        />
 
         <div className="border-t border-gray-100 pt-6 space-y-4">
           <div className="flex justify-between items-center mb-4">
