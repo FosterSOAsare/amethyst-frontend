@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { FileText, Loader2, Upload, X } from "lucide-react";
-import { acceptedTypes, checkFile, type FileRules } from "../utils/file-rules";
+import { checkFile, type FileRules } from "../utils/file-rules";
 import { uploadFile, type UploadedFile } from "../actions/upload-file";
 
 interface FileUploadFieldProps {
@@ -10,6 +10,7 @@ interface FileUploadFieldProps {
   onChange: (file: UploadedFile | null) => void;
   error?: string; // a message from the form's own validation, e.g. "required"
   showImagePreview?: boolean;
+  chooseText?: string; // the text on the button that opens the picker
   testId: string;
 }
 
@@ -20,6 +21,7 @@ export const FileUploadField = ({
   onChange,
   error,
   showImagePreview = false,
+  chooseText = "Choose file",
   testId,
 }: FileUploadFieldProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -64,7 +66,7 @@ export const FileUploadField = ({
         id={testId}
         ref={inputRef}
         type="file"
-        accept={acceptedTypes(rules)}
+        accept={rules.pickerAccept}
         onChange={handleFileChosen}
         className="hidden"
         data-testid={`${testId}-input`}
@@ -121,7 +123,7 @@ export const FileUploadField = ({
             <>
               <Upload className="w-5 h-5" />
               <span className="text-[10px] font-bold tracking-widest uppercase">
-                Choose file
+                {chooseText}
               </span>
               <span className="text-[10px] text-gray-400">
                 {rules.description}, up to {rules.maxSizeMb} MB
