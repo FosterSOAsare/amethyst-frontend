@@ -147,6 +147,7 @@ const EventForm = ({
           label="Event Image"
           rules={IMAGE_RULES}
           showImagePreview
+          chooseText="Choose image for the event"
           testId="event-image"
           value={
             leadImage

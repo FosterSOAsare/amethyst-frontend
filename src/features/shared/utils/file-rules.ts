@@ -1,14 +1,17 @@
 export interface FileRules {
+  // What the file picker shows. It is only a filter: the user can still pick
+  // "All files", so checkFile below is what actually enforces the rules.
+  pickerAccept: string;
   extensions: string[];
-  // When set, the file's real type must also match, and the file picker
-  // offers only these types. Left empty for documents, because browsers do
-  // not always report a type for Word files.
+  // When set, the file's real type must also match. Left empty for documents,
+  // because browsers do not always report a type for Word files.
   mimeTypes: string[];
   maxSizeMb: number;
   description: string; // used in messages, e.g. "JPG, PNG or WEBP image"
 }
 
 export const IMAGE_RULES: FileRules = {
+  pickerAccept: "image/*", // the picker shows "Image files"
   extensions: [".jpg", ".jpeg", ".png", ".webp"],
   mimeTypes: ["image/jpeg", "image/png", "image/webp"],
   maxSizeMb: 1,
@@ -16,15 +19,12 @@ export const IMAGE_RULES: FileRules = {
 };
 
 export const DOCUMENT_RULES: FileRules = {
+  pickerAccept: ".pdf,.doc,.docx",
   extensions: [".pdf", ".doc", ".docx"],
   mimeTypes: [],
   maxSizeMb: 10,
   description: "PDF or Word document",
 };
-
-// The value for the file input's `accept` attribute, which filters the picker.
-export const acceptedTypes = (rules: FileRules) =>
-  (rules.mimeTypes.length > 0 ? rules.mimeTypes : rules.extensions).join(",");
 
 // Returns an error message, or null when the file is allowed.
 export const checkFile = (file: File, rules: FileRules): string | null => {
