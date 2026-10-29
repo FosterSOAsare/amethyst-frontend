@@ -76,13 +76,22 @@ const PurchaseTicketModal = ({ event, onClose }: PurchaseTicketModalProps) => {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white w-full max-w-lg  shadow-xl flex flex-col overflow-hidden animate-in zoom-in-95 duration-200">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="purchase-tickets-title"
+        className="bg-white w-full max-w-lg  shadow-xl flex flex-col overflow-hidden animate-in zoom-in-95 duration-200"
+      >
         <div className="flex justify-between items-center p-6 border-b border-gray-100">
-          <h3 className="font-marcellus text-2xl text-gray-900">
+          <h3
+            id="purchase-tickets-title"
+            className="font-marcellus text-2xl text-gray-900"
+          >
             Purchase Tickets
           </h3>
           <button
             onClick={onClose}
+            aria-label="Close"
             className="text-gray-400 hover:text-gray-900 transition-colors"
           >
             <X className="w-6 h-6" />
@@ -175,6 +184,7 @@ const PurchaseTicketModal = ({ event, onClose }: PurchaseTicketModalProps) => {
                     <div className="flex items-center gap-4">
                       <button
                         onClick={handleDecrease}
+                        aria-label="Decrease quantity"
                         className="w-10 h-10 border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-50 transition-colors"
                       >
                         <Minus className="w-4 h-4" />
@@ -184,6 +194,7 @@ const PurchaseTicketModal = ({ event, onClose }: PurchaseTicketModalProps) => {
                       </div>
                       <button
                         onClick={handleIncrease}
+                        aria-label="Increase quantity"
                         className="w-10 h-10 border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-50 transition-colors"
                       >
                         <Plus className="w-4 h-4" />
@@ -308,6 +319,7 @@ const PurchaseTicketModal = ({ event, onClose }: PurchaseTicketModalProps) => {
                   <div className="flex items-center gap-4">
                     <button
                       onClick={handleDecrease}
+                      aria-label="Decrease quantity"
                       className="w-10 h-10 border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-50 transition-colors"
                     >
                       <Minus className="w-4 h-4" />
@@ -317,6 +329,7 @@ const PurchaseTicketModal = ({ event, onClose }: PurchaseTicketModalProps) => {
                     </div>
                     <button
                       onClick={handleIncrease}
+                      aria-label="Increase quantity"
                       className="w-10 h-10 border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-50 transition-colors"
                     >
                       <Plus className="w-4 h-4" />
