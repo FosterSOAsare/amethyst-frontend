@@ -14,6 +14,7 @@ import {
   Maximize2,
   Edit,
   Trash2,
+  FileText,
 } from "lucide-react";
 import PurchaseTicketModal from "../features/events/ui/purchase-ticket-modal";
 import { useImageModal } from "../features/shared/context/image-modal-context";
@@ -207,6 +208,21 @@ const SingleEventPage = () => {
                 >
                   {event.longDesc || event.desc}
                 </motion.p>
+                {event.detailsFile && (
+                  <a
+                    href={event.detailsFile.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-6 inline-flex items-center gap-3 border border-gray-200 px-4 py-3 text-sm text-gray-900 hover:border-gray-900 transition-colors"
+                    data-testid="event-details-file-link"
+                  >
+                    <FileText className="w-4 h-4 text-gray-400" />
+                    <span className="text-[10px] font-bold tracking-widest uppercase text-gray-500">
+                      Event details
+                    </span>
+                    {event.detailsFile.name}
+                  </a>
+                )}
               </div>
             </div>
 
