@@ -4,7 +4,11 @@ const baseSchema = z.object({
   firstName: z.string().min(2, "First name must be at least 2 characters"),
   lastName: z.string().min(2, "Last name must be at least 2 characters"),
   email: z.email("Please enter a valid email address"),
-  guests: z.union([z.number(), z.string()]),
+  guests: z
+    .number({ message: "Please choose the number of guests" })
+    .int("Guests must be a whole number")
+    .min(1, "Guests must be at least 1")
+    .max(6, "A booking can have at most 6 guests"),
 });
 
 export const roomBookingSchema = baseSchema
