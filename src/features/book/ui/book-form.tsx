@@ -414,7 +414,7 @@ const BookForm = () => {
             GUESTS
           </label>
           <div className="flex flex-wrap gap-2">
-            {[1, 2, 3, 4, 5, "6+"].map((num) => (
+            {[1, 2, 3, 4, 5, 6].map((num) => (
               <button
                 key={num}
                 type="button"
